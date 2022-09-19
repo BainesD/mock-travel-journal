@@ -1,70 +1,89 @@
-# Getting Started with Create React App
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# Travel Journal
 
-In the project directory, you can run:
+The goal of this project is to demonstrate the use of React to create a simple blog type item that allows the input of data, which is then automatically formatted.
 
-### `npm start`
+## features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The two major technologies used to format this travel journal are React and CSS.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### React
 
-### `npm test`
+I created post.js to handle the data coming from data.js and render it into html using JSX. I was able to pass in the information by using the spread operator in app.js like so.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```js
+const posts = Data.map(post=> (
+    <Post 
+        key={post.id}
+        {...post} /*spread operator*/
+    />))
+```
+Once the information was passed in, I was able to use JSX to simply populate the information into each respective element.
+<br/>
+This was the ultimate output of the JSX written in the post.js element.
 
-### `npm run build`
+```js
+<div className="post">
+        <div className="post-frame"><img className="post-img" src={props.imageURL} />
+        </div>
+        <div className="post-body">
+          <div className="post-head">
+            <img className="location-icon" src={locationIcon} />
+            <div className="post-location">{props.location}</div>
+            <a className="maps-link" href={props.googleMaps} target="_blank">
+              View on Google Maps
+            </a>
+          </div>
+          <div className="post-info">
+            <h1 className="post-title">{props.title}</h1>
+            <h3 className="post-dates">
+              {props.startDate} - {props.endDate}
+            </h3>
+            <p className="post-text">{props.description}</p>
+          </div>
+        </div>
+      </div>
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### CSS
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+All formatting is done using css. I was able to pull images from Google Maps and make them uniform with the following css.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```css
+.post-frame {
+    margin: 0 auto;
+  height: 198px;
+  width: 146px;
+  border-radius: 10px;
+  overflow: hidden;
+}
 
-### `npm run eject`
+.post-body {
+  margin: 10px;
+  width: 70%;
+}
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+.post-img {
+  width: 100%;
+  height: 100%;
+  object-fit: none;
+}
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+It is important to recognize that in this scenario each post is a flexbox; therefore, it was necessary to separate each flexbox into two region (picture and text). After which I was able to set the width of the text region to 70% so that each image could properly fill the space provided.
+<br/>
+Finally I used the following css to allow the images to return to their full size based on the screen size being more or less than 1000px. 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```css
+@media only screen and (min-width:1000px){
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+.post-frame{
+  height: auto;
+  width: auto;
+}
+  
+}
+```
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This allowed the page to look cleaner on large screens and had the added benefit of making the page more responsive.
